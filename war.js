@@ -152,14 +152,14 @@ var warHandler = new Vue({
                 $("#warModal").modal("hide");
                 this.fight.blockedSquares.push(...game.randomGen(0, 63, 4));
                 this.fight.yourTroopSquares = Math.round(this[this.fight.chosenSide + "Percent"] / 10)+5;
-                this.fight.yourTroops[1].maxStock = Math.ceil((this.fight.yourTroopSquares / 8) * 5);
-                this.fight.yourTroops[2].maxStock = Math.ceil((this.fight.yourTroopSquares / 8) * 3);
+                this.fight.yourTroops[1].maxStock = Math.round((this.fight.yourTroopSquares / 8) * 5);
+                this.fight.yourTroops[2].maxStock = Math.round((this.fight.yourTroopSquares / 8) * 3);
                 setTimeout(() => {
                     this.fight.random = game.randomGen(1, 10000);
                 }, 50);
-                this.fight.theirTroopSquares = Math.ceil(this[this.armiesInvolved.find(x => x.name !== this.fight.chosenSide).name + "Percent"] / 10)+5;
-                this.fight.theirTroops[0].maxStock = Math.ceil((this.fight.theirTroopSquares / 8) * 5);
-                this.fight.theirTroops[1].maxStock = Math.ceil((this.fight.theirTroopSquares / 8) * 3);
+                this.fight.theirTroopSquares = Math.round(this[this.armiesInvolved.find(x => x.name !== this.fight.chosenSide).name + "Percent"] / 10)+5;
+                this.fight.theirTroops[0].maxStock = Math.round((this.fight.theirTroopSquares / 8) * 5);
+                this.fight.theirTroops[1].maxStock = Math.round((this.fight.theirTroopSquares / 8) * 3);
                 this.fight.theirTroops.forEach(element => {
                     element.stockNumber = element.maxStock;
                     this.addEnemy(game.randomGen(0, 31, element.maxStock), element.name);
@@ -184,7 +184,7 @@ var warHandler = new Vue({
         },
         updateUsedLocation(number) {
             var l = this.fight.deployedTroopLocations;
-            var i = l.findIndex(x => x.type === this.fight.draggingName && x.stock === this.fight.draggingStock);
+            var i = l.findIndex(x => x.type === this.fight.draggingName && x.stock === this.fight.draggingStock && x.side === this.fight.chosenSide);
             if (i > -1) {
                 l[i].position = number;
             } else {
@@ -198,17 +198,8 @@ var warHandler = new Vue({
                     if (troop.stockNumber <= 0) {
                         break;
                     }
-                    if (!this.isLocationValid(location)) {
+                    while(!this.isLocationValid(location)) {
                         location++;
-                        if (!this.isLocationValid(location)) {
-                            location++;
-                            if (!this.isLocationValid(location)) {
-                                location++;
-                                if (!this.isLocationValid(location)) {
-                                    location++;
-                                }
-                            }
-                        }
                     }
                     this.fight.deployedTroopLocations.push({ position: location, type: type, stock: troop.stockNumber, side: this.armiesInvolved.find(x => x.name !== this.fight.chosenSide).name });
                     $(".item-" + location).append("<div class=\"fight-troop " + type + "-troop-" + troop.stockNumber + " " + this.armiesInvolved.find(x => x.name !== this.fight.chosenSide).name + "-bg fight-enemy\"><h5>" + type + "</h5></div>");
@@ -220,17 +211,8 @@ var warHandler = new Vue({
                         if (troop.stockNumber <= 0) {
                             break;
                         }
-                        if (!this.isLocationValid(element)) {
+                        while(!this.isLocationValid(element)) {
                             element++;
-                            if (!this.isLocationValid(element)) {
-                                element++;
-                                if (!this.isLocationValid(element)) {
-                                    element++;
-                                    if (!this.isLocationValid(element)) {
-                                        element++;
-                                    }
-                                }
-                            }
                         }
                         this.fight.deployedTroopLocations.push({ position: element, type: type, stock: troop.stockNumber, side: this.armiesInvolved.find(x => x.name !== this.fight.chosenSide).name });
                         $(".item-" + element).append("<div class=\"fight-troop " + type + "-troop-" + troop.stockNumber + " " + this.armiesInvolved.find(x => x.name !== this.fight.chosenSide).name + "-bg fight-enemy\"><h5>" + type + "</h5></div>");

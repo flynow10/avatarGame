@@ -71,13 +71,13 @@ var player = new Vue({
 					}, 10);
                     var interval = setInterval(() => {
                         game.timeTilWar -= 1;
-                    }, 500);
+                    }, 1000);
                     player.change(this.nation);
                     setTimeout(() => {
                         clearInterval(interval);
 						clearInterval(interval2);
                         $(':button').prop('disabled', false);
-                    }, 1750);
+                    }, 3500);
                 },
                 cost: 3,
                 s: true,
@@ -139,7 +139,7 @@ var player = new Vue({
             this.currentPosition = "ocean";
             setTimeout(() => {
                 this.currentPosition = to;
-            }, 1500);
+            }, 3000);
         },
         multiplyByI(index, i) {
             return index*i;
