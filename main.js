@@ -1,5 +1,4 @@
 /*jshint esversion: 6 */
-'use strict';
 const turnsBetweenWarRange = [2, 4];
 const money = new Intl.NumberFormat('en-US', {
     style: 'currency',

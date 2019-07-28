@@ -193,13 +193,13 @@ var warHandler = new Vue({
             var l = this.fight.deployedTroopLocations;
             var i = l.findIndex(x => x.type === this.fight.draggingName && x.stock === this.fight.draggingStock)
             if (i > -1) {
-                l[i].position = number
+                l[i].position = number;
             } else {
                 l.push({ position: number, type: this.fight.draggingName, stock: this.fight.draggingStock, side: this.fight.chosenSide });
             }
         },
         addEnemy(location, type = "") {
-            var troop = this.fight.theirTroops.find(x => x.name === type)
+            var troop = this.fight.theirTroops.find(x => x.name === type);
             switch (typeof location) {
                 case "number":
                     if (troop.stockNumber <= 0) {
@@ -217,12 +217,12 @@ var warHandler = new Vue({
                             }
                         }
                     }
-                    this.fight.deployedTroopLocations.push({ position: location, type: type, stock: troop.stockNumber, side: this.armiesInvolved.find(x => x.name !== this.fight.chosenSide).name })
-                    $(".item-" + location).append("<div class=\"fight-troop " + type + "-troop-" + troop.stockNumber + " fight-enemy\"><h5>" + type + "</h5></div>");
+                    this.fight.deployedTroopLocations.push({ position: location, type: type, stock: troop.stockNumber, side: this.armiesInvolved.find(x => x.name !== this.fight.chosenSide).name });
+                    $(".item-" + location).append("<div class=\"fight-troop " + type + "-troop-" + troop.stockNumber + " " + this.armiesInvolved.find(x => x.name !== this.fight.chosenSide).name + "-bg fight-enemy\"><h5>" + type + "</h5></div>");
                     troop.stockNumber--;
                     break;
                 case "object":
-                    for (let i = 0; i < location.length;) {
+                    for (var i = 0; i < location.length;) {
                         var element = location[i];
                         if (troop.stockNumber <= 0) {
                             break;
@@ -264,11 +264,11 @@ var warHandler = new Vue({
             if (this.isLocationValid(number)) {
                 this.updateUsedLocation(number);
                 $(".item-" + number).append($(".fight-troop." + this.fight.draggingName + '-troop-' + this.fight.draggingStock + ":not(.fight-enemy)"));
-                this.fight.random = game.randomGen(1, 10000)
+                this.fight.random = game.randomGen(1, 10000);
             }
         },
         confirmTroops() {
-            $(".fight-troop:not(.fight-enemy)").prop('draggable', false)
+            $(".fight-troop:not(.fight-enemy)").prop('draggable', false);
             $(".confirm-troops").remove();
         }
     },

@@ -60,15 +60,14 @@ function displayPage(){
                 <!--Replace with fight background -->
 				<div v-if="bgTab === 2">
                 	<div class="war-grid-container d-inline-flex align-content-stretch flex-wrap">
-                    <div v-for="(item, index) in Array.from(Array(64).keys())" :class="(fight.blockedSquares.find(x => x === index) >= 0) ? 'bg-dark grid-item item-' + index  : 'grid-item item-' + index" :id="index" @dragover="dragover" @dragenter="dragenter" @drop="drop(index, $event)"></div>
+                        <div v-for="(item, index) in Array.from(Array(64).keys())" :class="(fight.blockedSquares.find(x => x === index) >= 0) ? 'bg-dark grid-item item-' + index  : 'grid-item item-' + index" :id="index" @dragover="dragover" @dragenter="dragenter" @drop="drop(index, $event)"></div>
                 	</div>
-					<button class="btn btn-success btn-large confirm-troops d-inline" @click="confirmTroops">Confirm Troop Placement</button>
 				</div>
-                <div class="diplomacy-overlay" v-if="bgTab === 3">
-                </div>
-                <!--<div class="fight-overlay" v-if="bgTab === 2">
-                </div>-->
-                <div v-if="bgTab === 2" class="fight-yourTroops">
+
+                <div class="diplomacy-overlay" v-if="bgTab === 3"></div>
+                <!--<div class="fight-overlay" v-if="bgTab === 2"></div>-->
+
+                <div v-if="bgTab === 2" class="fight-yourTroops d-inline-flex align-content-stretch flex-wrap">
                     <div v-for="(troop,index) in fight.yourTroops" >
                         <div :class="'troop-stack troop-stack-' + troop.name">
                             <div v-for="(dragSquare, dIndex) in Array.from(Array(troop.maxStock).keys())" :class="'fight-troop ' + troop.name + '-troop-' + dIndex +' '+ fight.chosenSide + '-bg'" draggable="true" @dragstart="startDrag($event, troop.name, dIndex);">
@@ -76,6 +75,9 @@ function displayPage(){
                             </div>
                             <h4 :key="fight.random">{{troop.amountInStock()}}</h4>
                         </div>
+                    </div>
+                    <div>
+                        <button class="btn btn-success btn-large confirm-troops d-inline" @click="confirmTroops">Confirm Troop Placement</button>
                     </div>
                 </div>
             </div>
