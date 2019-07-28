@@ -70,12 +70,18 @@ var warHandler = new Vue({
             $(".modal").modal("hide");
             this.war = true;
             game.war = true;
-            this.armiesInvolved.push({ name: game.pickARandomNation([this.location]) });
+            this.armiesInvolved.push({
+                name: game.pickARandomNation([this.location])
+            });
             this.battleScale = game.randomGen(0, 2);
             if (game.randomGen(0, 100) <= 5 && this.battleScale !== 2) {
-                this.armiesInvolved.push({ name: game.pickARandomNation([this.location, this.armiesInvolved[0].name]) });
+                this.armiesInvolved.push({
+                    name: game.pickARandomNation([this.location, this.armiesInvolved[0].name])
+                });
             } else {
-                this.armiesInvolved.push({ name: game.translation(this.location, ""), });
+                this.armiesInvolved.push({
+                    name: game.translation(this.location, ""),
+                });
             }
             this.chosenBattleStory = game.randomGen(0, this.battleStories.length - 1);
 
@@ -151,20 +157,19 @@ var warHandler = new Vue({
             if (this.fight.chosenSide !== "") {
                 $("#warModal").modal("hide");
                 this.fight.blockedSquares.push(...game.randomGen(0, 63, 4));
-                this.fight.yourTroopSquares = Math.round(this[this.fight.chosenSide + "Percent"] / 10)+5;
+                this.fight.yourTroopSquares = Math.round(this[this.fight.chosenSide + "Percent"] / 10) + 5;
                 this.fight.yourTroops[1].maxStock = Math.round((this.fight.yourTroopSquares / 8) * 5);
                 this.fight.yourTroops[2].maxStock = Math.round((this.fight.yourTroopSquares / 8) * 3);
                 setTimeout(() => {
                     this.fight.random = game.randomGen(1, 10000);
                 }, 50);
-                this.fight.theirTroopSquares = Math.round(this[this.armiesInvolved.find(x => x.name !== this.fight.chosenSide).name + "Percent"] / 10)+5;
+                this.fight.theirTroopSquares = Math.round(this[this.armiesInvolved.find(x => x.name !== this.fight.chosenSide).name + "Percent"] / 10) + 5;
                 this.fight.theirTroops[0].maxStock = Math.round((this.fight.theirTroopSquares / 8) * 5);
                 this.fight.theirTroops[1].maxStock = Math.round((this.fight.theirTroopSquares / 8) * 3);
                 this.fight.theirTroops.forEach(element => {
                     element.stockNumber = element.maxStock;
                     this.addEnemy(game.randomGen(0, 31, element.maxStock), element.name);
                 });
-
             }
         },
         diplomacyMethod() {
@@ -188,7 +193,12 @@ var warHandler = new Vue({
             if (i > -1) {
                 l[i].position = number;
             } else {
-                l.push({ position: number, type: this.fight.draggingName, stock: this.fight.draggingStock, side: this.fight.chosenSide });
+                l.push({
+                    position: number,
+                    type: this.fight.draggingName,
+                    stock: this.fight.draggingStock,
+                    side: this.fight.chosenSide
+                });
             }
         },
         addEnemy(location, type = "") {
@@ -198,10 +208,15 @@ var warHandler = new Vue({
                     if (troop.stockNumber <= 0) {
                         break;
                     }
-                    while(!this.isLocationValid(location)) {
+                    while (!this.isLocationValid(location)) {
                         location++;
                     }
-                    this.fight.deployedTroopLocations.push({ position: location, type: type, stock: troop.stockNumber, side: this.armiesInvolved.find(x => x.name !== this.fight.chosenSide).name });
+                    this.fight.deployedTroopLocations.push({
+                        position: location,
+                        type: type,
+                        stock: troop.stockNumber,
+                        side: this.armiesInvolved.find(x => x.name !== this.fight.chosenSide).name
+                    });
                     $(".item-" + location).append("<div class=\"fight-troop " + type + "-troop-" + troop.stockNumber + " " + this.armiesInvolved.find(x => x.name !== this.fight.chosenSide).name + "-bg fight-enemy\"><h5>" + type + "</h5></div>");
                     troop.stockNumber--;
                     break;
@@ -211,10 +226,15 @@ var warHandler = new Vue({
                         if (troop.stockNumber <= 0) {
                             break;
                         }
-                        while(!this.isLocationValid(element)) {
+                        while (!this.isLocationValid(element)) {
                             element++;
                         }
-                        this.fight.deployedTroopLocations.push({ position: element, type: type, stock: troop.stockNumber, side: this.armiesInvolved.find(x => x.name !== this.fight.chosenSide).name });
+                        this.fight.deployedTroopLocations.push({
+                            position: element,
+                            type: type,
+                            stock: troop.stockNumber,
+                            side: this.armiesInvolved.find(x => x.name !== this.fight.chosenSide).name
+                        });
                         $(".item-" + element).append("<div class=\"fight-troop " + type + "-troop-" + troop.stockNumber + " " + this.armiesInvolved.find(x => x.name !== this.fight.chosenSide).name + "-bg fight-enemy\"><h5>" + type + "</h5></div>");
                         troop.stockNumber--;
                         i++;

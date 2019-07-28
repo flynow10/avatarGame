@@ -5,42 +5,41 @@ var player = new Vue({
         currentPosition: "",
         skill: {
             levels: ["Beginner", "Intermediate", "Advanced", "Master"],
-            earth:{
+            earth: {
                 level: 0,
                 percent: 0,
             },
-            fire:{
+            fire: {
                 level: 0,
                 percent: 0,
             },
-            water:{
+            water: {
                 level: 0,
                 percent: 0,
             },
-            air:{
+            air: {
                 level: 0,
                 percent: 0,
             },
         },
         tab: 0,
-        actions: [
-            {
-                run(){
+        actions: [{
+                run() {
                     $("#player").modal("hide");
-                    var random = game.randomGen(20,35);
+                    var random = game.randomGen(20, 35);
                     var skill = player.skill[player.currentPosition];
-                    if(skill.percent + random < 100){
+                    if (skill.percent + random < 100) {
                         skill.percent += random;
                         alertBox("Your skill in" + player.translation(player.currentPosition, "s") + "bending has increased by " + random + "%. You are now " + skill.percent + "% through your rank", "warning");
                     } else {
-                        if(skill.percent + random >= 100){
-                            if(skill.level !== 3){
+                        if (skill.percent + random >= 100) {
+                            if (skill.level !== 3) {
                                 skill.percent += random;
                                 skill.percent -= 100;
-                                skill.level ++;
-                                alertBox("Your skill in" + player.translation(player.currentPosition, "s") + "bending has increased by " + random + "%, leveling you up. You are now " + skill.percent + "% through your new rank", "warning");        
+                                skill.level++;
+                                alertBox("Your skill in" + player.translation(player.currentPosition, "s") + "bending has increased by " + random + "%, leveling you up. You are now " + skill.percent + "% through your new rank", "warning");
                             } else {
-                                if(skill.percent !== 100){
+                                if (skill.percent !== 100) {
                                     skill.percent = 100;
                                     alertBox("You are now a master in the element of" + player.translation(player.currentPosition, "l"), "warning");
                                 } else {
@@ -51,31 +50,31 @@ var player = new Vue({
                         }
                     }
                 },
-                name(){
-                    return "Train in the element of <span class='"+player.translation(player.currentPosition, "")+"'>" + player.translation(player.currentPosition, "d") + "</span>";
+                name() {
+                    return "Train in the element of <span class='" + player.translation(player.currentPosition, "") + "'>" + player.translation(player.currentPosition, "d") + "</span>";
                 },
                 cost: 2,
                 s: false,
             },
             {
-                name(){
+                name() {
                     return "Move to another nation";
                 },
-                run(){
+                run() {
                     player.tab = "move";
                 },
-                run2(){
+                run2() {
                     $("#player").modal('hide');
                     var interval2 = setInterval(() => {
-						$(':button').prop('disabled', true);
-					}, 10);
+                        $(':button').prop('disabled', true);
+                    }, 10);
                     var interval = setInterval(() => {
                         game.timeTilWar -= 1;
                     }, 1000);
                     player.change(this.nation);
                     setTimeout(() => {
                         clearInterval(interval);
-						clearInterval(interval2);
+                        clearInterval(interval2);
                         $(':button').prop('disabled', false);
                     }, 3500);
                 },
@@ -84,10 +83,10 @@ var player = new Vue({
                 nation: ""
             },
             {
-                name(){
-                    return "Wait in the <span class='"+player.translation(player.currentPosition, "")+"'>"+player.translation(player.currentPosition, "dN")+"</span>";
+                name() {
+                    return "Wait in the <span class='" + player.translation(player.currentPosition, "") + "'>" + player.translation(player.currentPosition, "dN") + "</span>";
                 },
-                run(){
+                run() {
                     $("#player").modal('hide');
                     alertBox("You waited a day", "warning");
                 },
@@ -95,9 +94,9 @@ var player = new Vue({
                 s: false,
             }
         ],
-        ss(cost, special){
-            if(game.timeTilWar >= cost){
-                if(special === false){
+        ss(cost, special) {
+            if (game.timeTilWar >= cost) {
+                if (special === false) {
                     game.timeTilWar -= cost;
                 }
                 return true;
@@ -107,7 +106,7 @@ var player = new Vue({
         }
     },
     methods: {
-        action(){
+        action() {
 
         },
         format(formatType, num) {
@@ -123,16 +122,36 @@ var player = new Vue({
             var nation;
             switch (to) {
                 case "water":
-                    nation = {display : "initial",top: "12%",left: "48%",borderColor: "#68aff5"};
+                    nation = {
+                        display: "initial",
+                        top: "12%",
+                        left: "48%",
+                        borderColor: "#68aff5"
+                    };
                     break;
                 case "earth":
-                    nation = {display : "initial",top: "47%",left: "60%",borderColor: "#1cc226"};
+                    nation = {
+                        display: "initial",
+                        top: "47%",
+                        left: "60%",
+                        borderColor: "#1cc226"
+                    };
                     break;
                 case "air":
-                    nation = {display : "initial",top: "68%",left: "43%",borderColor: "#f5c168"};
+                    nation = {
+                        display: "initial",
+                        top: "68%",
+                        left: "43%",
+                        borderColor: "#f5c168"
+                    };
                     break;
                 case "fire":
-                    nation = {display : "initial",top: "46%",left: "24%",borderColor: "#e70004"};
+                    nation = {
+                        display: "initial",
+                        top: "46%",
+                        left: "24%",
+                        borderColor: "#e70004"
+                    };
                     break;
             }
             $("#avatarIcon").css(nation);
@@ -142,34 +161,34 @@ var player = new Vue({
             }, 3000);
         },
         multiplyByI(index, i) {
-            return index*i;
+            return index * i;
         },
         translation(text, lang) {
             var returnString = "",
-            suffix = "";
-            if(text.search(/fire/gi) > -1){
+                suffix = "";
+            if (text.search(/fire/gi) > -1) {
                 returnString = "fire";
                 suffix = "nation";
-            }else{
-                if(text.search(/water/gi) > -1){
+            } else {
+                if (text.search(/water/gi) > -1) {
                     returnString = "water";
                     suffix = "tribe";
-                }else{
-                    if(text.search(/air/gi) > -1){
+                } else {
+                    if (text.search(/air/gi) > -1) {
                         returnString = "air";
                         suffix = "nation";
-                    }else{
-                        if(text.search(/earth/gi) > -1){
+                    } else {
+                        if (text.search(/earth/gi) > -1) {
                             returnString = "earth";
                             suffix = "kingdom";
-                        }else{
-                           return 'unknown nation';
+                        } else {
+                            return 'unknown nation';
                         }
                     }
                 }
             }
-            for(var i = 0; i < lang.length; i++){
-                switch(lang[i]){
+            for (var i = 0; i < lang.length; i++) {
+                switch (lang[i]) {
                     case "d":
                         returnString = returnString.charAt(0).toUpperCase() + returnString.slice(1);
                         break;
@@ -194,13 +213,13 @@ var player = new Vue({
         },
     },
     computed: {
-        name(){
+        name() {
             return avatar.name;
         },
-        nation(){
+        nation() {
             return avatar.nation;
         },
-        timeTilWar(){
+        timeTilWar() {
             return game.timeTilWar;
         }
     },

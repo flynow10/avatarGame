@@ -81,28 +81,28 @@ var avatar = new Vue({
                     break;
             }
             this.allNations = ["firePercent", "waterPercent", "airPercent", "earthPercent"];
-            game.timeTilWar = game.randomGen(4,7);
-            warHandler.location = this.translation(this.allNations[game.randomGen(0,3)], "");
+            game.timeTilWar = game.randomGen(4, 7);
+            warHandler.location = this.translation(this.allNations[game.randomGen(0, 3)], "");
             this.backstorySetup();
         },
         backstorySetup() {
             player.currentPosition = player.nation;
             player.skill[player.nation].level = 2;
             var p = player.skill;
-            p.earth.percent = game.randomGen(10,50);
-            p.air.percent = game.randomGen(10,50);
-            p.fire.percent = game.randomGen(10,50);
-            p.water.percent = game.randomGen(10,50);
+            p.earth.percent = game.randomGen(10, 50);
+            p.air.percent = game.randomGen(10, 50);
+            p.fire.percent = game.randomGen(10, 50);
+            p.water.percent = game.randomGen(10, 50);
             var avalibleBackstories = [];
             this.backstories.forEach(backstory => {
                 var tequal = (this.weakOrEqual === 1) ? false : true;
-                if(backstory.equal === tequal){
+                if (backstory.equal === tequal) {
                     avalibleBackstories.push(backstory);
                 }
             });
             var highestNum = 0;
             avalibleBackstories.forEach(backstory => {
-                if(backstory.number >= highestNum){
+                if (backstory.number >= highestNum) {
                     highestNum = backstory.number;
                 }
             });
@@ -110,11 +110,11 @@ var avatar = new Vue({
                 var backstoryNum = game.randomGen(0, highestNum);
                 var avalible = false;
                 avalibleBackstories.forEach(backstory => {
-                    if(backstoryNum === backstory.number){
+                    if (backstoryNum === backstory.number) {
                         avalible = true;
                     }
                 });
-                if(avalible === true){
+                if (avalible === true) {
                     this.chosenbackstory = backstoryNum;
                     break;
                 }
@@ -122,30 +122,30 @@ var avatar = new Vue({
         },
         translation(text, lang) {
             var returnString = "",
-            suffix = "";
-            if(text.search(/fire/gi) > -1){
+                suffix = "";
+            if (text.search(/fire/gi) > -1) {
                 returnString = "fire";
                 suffix = "nation";
-            }else{
-                if(text.search(/water/gi) > -1){
+            } else {
+                if (text.search(/water/gi) > -1) {
                     returnString = "water";
                     suffix = "tribe";
-                }else{
-                    if(text.search(/air/gi) > -1){
+                } else {
+                    if (text.search(/air/gi) > -1) {
                         returnString = "air";
                         suffix = "nation";
-                    }else{
-                        if(text.search(/earth/gi) > -1){
+                    } else {
+                        if (text.search(/earth/gi) > -1) {
                             returnString = "earth";
                             suffix = "kingdom";
-                        }else{
-                           return 'unknown nation';
+                        } else {
+                            return 'unknown nation';
                         }
                     }
                 }
             }
-            for(var i = 0; i < lang.length; i++){
-                switch(lang[i]){
+            for (var i = 0; i < lang.length; i++) {
+                switch (lang[i]) {
                     case "d":
                         returnString = returnString.charAt(0).toUpperCase() + returnString.slice(1);
                         break;

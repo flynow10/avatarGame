@@ -33,7 +33,7 @@ var game = new Vue({
         war: false,
     },
     watch: {
-        timeTilWar: function(newVal, old) {
+        timeTilWar: function (newVal, old) {
             if (newVal === 0 && old !== 0) {
                 warHandler.startWar();
             }
@@ -129,9 +129,11 @@ var game = new Vue({
             return returnString;
         },
         playerModal() {
-            $("#player").modal({ backdrop: "static", keyboard: false, });
-            if(player.tab === "move")
-            {
+            $("#player").modal({
+                backdrop: "static",
+                keyboard: false,
+            });
+            if (player.tab === "move") {
                 player.tab = 0;
             }
         },
