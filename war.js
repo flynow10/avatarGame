@@ -62,6 +62,7 @@ var warHandler = new Vue({
             blockedSquares: [],
             yourTroopSquares: 32,
             theirTroopSquares: 32,
+            confirmed: false,
         }
     },
     methods: {
@@ -180,6 +181,12 @@ var warHandler = new Vue({
 
             }
         },
+        selectTroop(troop, stock) {
+            if(this.confirmed === true)
+            {
+
+            }
+        },
         isLocationValid(n) {
             if (this.fight.blockedSquares.find(x => x === n) >= 0) {
                 return false;
@@ -265,6 +272,7 @@ var warHandler = new Vue({
         confirmTroops() {
             $(".fight-troop:not(.fight-enemy)").prop('draggable', false);
             $(".confirm-troops").remove();
+            this.fight.confirmed = true;
         }
     },
     computed: {

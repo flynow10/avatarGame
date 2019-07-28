@@ -79,16 +79,16 @@ function displayPage(){
                 <div v-if="bgTab === 2" class="fight-yourTroops d-inline-flex align-content-stretch flex-wrap">
                     <div v-for="(troop,index) in fight.yourTroops">
                         <div :class="'troop-stack troop-stack-' + troop.name">
-                            <div v-for="(dragSquare, dIndex) in Array.from(Array(troop.maxStock).keys())"
-                                :class="'fight-troop ' + troop.name + '-troop-' + dIndex +' '+ fight.chosenSide + '-bg'"
-                                draggable="true" @dragstart="startDrag($event, troop.name, dIndex);">
+                            <div v-for="(dragSquare, troopStock) in Array.from(Array(troop.maxStock).keys())"
+                                :class="'fight-troop ' + troop.name + '-troop-' + troopStock +' '+ fight.chosenSide + '-bg'"
+                                draggable="true" @dragstart="startDrag($event, troop.name, troopStock);" @click="selectTroop(troop,troopStock)">
                                 <h5>{{troop.name}}</h5>
                             </div>
-                            <h4 :key="fight.random">{{troop.amountInStock()}}</h4>
+                            <h4 :key="fight.random"  v-if="troop.amountInStock() !== 0">{{troop.amountInStock()}}</h4>
                         </div>
                     </div>
                     <div>
-                        <button class="btn btn-success btn-large confirm-troops d-inline" @click="confirmTroops">Confirm
+                        <button class="btn btn-success btn-large confirm-troops d-inline" v-if="fight.deployedTroopLocations.length !== fight.theirTroops[0].maxStock + fight.theirTroops[1].maxStock" @click="confirmTroops">Confirm
                             Troop Placement</button>
                     </div>
                 </div>
