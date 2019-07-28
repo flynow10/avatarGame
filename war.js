@@ -29,14 +29,14 @@ var warHandler = new Vue({
                     maxStock: 1
                 },
                 {
-                    name: "Benders",
+                    name: "Bender",
                     amountInStock() {
                         return $(".troop-stack-" + this.name + ' > div').length;
                     },
                     maxStock: 0,
                 },
                 {
-                    name: "Tanks",
+                    name: "Tank",
                     amountInStock() {
                         return $(".troop-stack-" + this.name + ' > div').length;
                     },
@@ -44,12 +44,12 @@ var warHandler = new Vue({
                 }
             ],
             theirTroops: [{
-                    name: "Benders",
+                    name: "Bender",
                     stockNumber: 0,
                     maxStock: 0,
                 },
                 {
-                    name: "Tanks",
+                    name: "Tank",
                     stockNumber: 0,
                     maxStock: 0,
                 }
