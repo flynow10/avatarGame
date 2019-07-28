@@ -151,21 +151,13 @@ var warHandler = new Vue({
             if (this.fight.chosenSide !== "") {
                 $("#warModal").modal("hide");
                 this.fight.blockedSquares.push(...game.randomGen(0, 63, 4));
-                this.fight.blockedSquares.forEach(element => {
-                    if (element > 31) {
-                        this.fight.yourTroopSquares--;
-                    }
-                    if (element < 31) {
-                        this.fight.theirTroopSquares--;
-                    }
-                });
-                this.fight.yourTroopSquares = Math.ceil(this.fight.yourTroopSquares * (this[this.fight.chosenSide + "Percent"] / 100));
+                this.fight.yourTroopSquares = Math.round(this[this.fight.chosenSide + "Percent"] / 10)+5;
                 this.fight.yourTroops[1].maxStock = Math.ceil((this.fight.yourTroopSquares / 8) * 5);
                 this.fight.yourTroops[2].maxStock = Math.ceil((this.fight.yourTroopSquares / 8) * 3);
                 setTimeout(() => {
                     this.fight.random = game.randomGen(1, 10000);
                 }, 50);
-                this.fight.theirTroopSquares = Math.ceil(this.fight.theirTroopSquares * (this[this.armiesInvolved.find(x => x.name !== this.fight.chosenSide).name + "Percent"] / 100));
+                this.fight.theirTroopSquares = Math.ceil(this[this.armiesInvolved.find(x => x.name !== this.fight.chosenSide).name + "Percent"] / 10)+5;
                 this.fight.theirTroops[0].maxStock = Math.ceil((this.fight.theirTroopSquares / 8) * 5);
                 this.fight.theirTroops[1].maxStock = Math.ceil((this.fight.theirTroopSquares / 8) * 3);
                 this.fight.theirTroops.forEach(element => {
