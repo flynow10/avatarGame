@@ -101,6 +101,12 @@
     position: absolute;
     left: 0px;
     top: 0px;
+    text-align : center;
+}
+
+.fight-troop h5 {
+    line-height: 50px;
+    font-size: 13px;
 }
 
 .fight-troop.selectable:not(.fight-enemy):hover {
