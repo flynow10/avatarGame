@@ -77,7 +77,7 @@ function displayPage(){
                 <!--<div class="fight-overlay" v-if="bgTab === 2"></div>-->
 
                 <div v-if="bgTab === 2" class="fight-yourTroops d-inline-flex align-content-stretch flex-wrap">
-                    <div v-for="(troop,index) in fight.yourTroops">
+                    <div v-for="(troop,index) in fight.yourTroops" v-if="fight.confirmed === false">
                         <div :class="'troop-stack troop-stack-' + troop.name">
                             <div v-for="(dragSquare, troopStock) in Array.from(Array(troop.maxStock).keys())"
                                 :class="'fight-troop ' + troop.name + '-troop-' + troopStock +' '+ fight.chosenSide + '-bg'"
