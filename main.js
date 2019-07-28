@@ -1,3 +1,5 @@
+/*jshint esversion: 6 */
+'use strict';
 const turnsBetweenWarRange = [2, 4];
 const money = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -18,7 +20,7 @@ Vue.component('power', {
         }
     },
     template: '<div class="power"><h3>Power Percentages</h3><h5 class="fire">Fire Nation: {{ format("percent", firePercent) }}</h5><h5 class="water">Water Tribe: {{ format("percent", waterPercent) }}</h5><h5 class="air">Air Nation: {{ format("percent", airPercent) }}</h5><h5 class="earth">Earth Kingdom: {{ format("percent", earthPercent) }}</h5></div>'
-})
+});
 
 var game = new Vue({
     el: "#game",
@@ -39,7 +41,7 @@ var game = new Vue({
     },
     methods: {
         weightedRandom(array = [], weightsArray = []) {
-            weightedArray = []
+            weightedArray = [];
             for (var i = 0; i < array.length; i++) {
                 for (var p = 0; p < weightsArray[i] * 100; p++) {
                     weightedArray.push(array[i]);
@@ -68,7 +70,9 @@ var game = new Vue({
                 nextAdd;
             for (let i = 0; i < amount;) {
                 nextAdd = Math.floor(Math.random() * (max - min + 1)) + min;
-                var hasInArray = answerArray.findIndex(x => x === nextAdd);
+                var hasInArray = answerArray.findIndex(x => {
+                    return x === nextAdd;
+                });
                 if (answerArray.length === 0 || hasInArray === -1) {
                     answerArray.push(nextAdd);
                     i++;
@@ -95,7 +99,7 @@ var game = new Vue({
                             returnString = "earth";
                             suffix = "kingdom";
                         } else {
-                            return 'unknown nation'
+                            return 'unknown nation';
                         }
                     }
                 }
@@ -128,7 +132,7 @@ var game = new Vue({
             $("#player").modal({ backdrop: "static", keyboard: false, });
         },
         pickARandomNation(array = []) {
-            var pickableNation = ["earth", "water", "fire", "air"]
+            var pickableNation = ["earth", "water", "fire", "air"];
             for (let i = 0; i < array.length; i++) {
                 const element = this.translation(array[i], "");
                 var index = pickableNation.indexOf(element);
