@@ -31,7 +31,7 @@ function displayPage(){
             </div>
         </div>
         <div class="mainMap">
-            <img src="assets/map.jpg" alt="Map" height="500px" />
+            <img src="assets/map.jpg" alt="Map" class="mainImg" />
             <img src="assets/favicon.png" id="avatarIcon" :class="currentPosition" role="button" @click='playerModal'/>
         </div>
     </div>
@@ -156,7 +156,10 @@ function displayPage(){
                     <button class="btn btn-primary btn-lg btn-block" v-if="currentPosition !== 'earth'" @click="actions[1].nation = 'earth'; tab = 1; actions[1].run2();">Earth Kingdom</button>
                 </div>
                 <div class="modal-footer">
-                    <button v-if="tab === 0" @click="tab = 1" class="btn btn-primary mx-1">Actions ►</button><button v-if="tab === 1" @click="tab = 0" class="btn btn-primary mx-1">◄ Stats</button><button class="btn btn-primary mx-1" data-dismiss="modal">Close</button>
+                    <button v-if="tab === 0" @click="tab = 1" class="btn btn-primary mx-1">Actions ►</button>
+                    <button v-if="tab === 1" @click="tab = 0" class="btn btn-primary mx-1">◄ Stats</button>
+                    <button v-if="tab === 'move'" @click="tab = 0" class="btn btn-primary mx-1">Cancel</button>
+                    <button class="btn btn-primary mx-1" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

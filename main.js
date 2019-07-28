@@ -130,6 +130,10 @@ var game = new Vue({
         },
         playerModal() {
             $("#player").modal({ backdrop: "static", keyboard: false, });
+            if(player.tab === "move")
+            {
+                player.tab = 0;
+            }
         },
         pickARandomNation(array = []) {
             var pickableNation = ["earth", "water", "fire", "air"];

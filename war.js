@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 var warHandler = new Vue({
     el: "#war",
     data: {
@@ -72,7 +73,7 @@ var warHandler = new Vue({
             this.armiesInvolved.push({ name: game.pickARandomNation([this.location]) });
             this.battleScale = game.randomGen(0, 2);
             if (game.randomGen(0, 100) <= 5 && this.battleScale !== 2) {
-                this.armiesInvolved.push({ name: game.pickARandomNation([this.location, this.armiesInvolved[0].name]) })
+                this.armiesInvolved.push({ name: game.pickARandomNation([this.location, this.armiesInvolved[0].name]) });
             } else {
                 this.armiesInvolved.push({ name: game.translation(this.location, ""), });
             }
@@ -104,7 +105,7 @@ var warHandler = new Vue({
                             returnString = "earth";
                             suffix = "kingdom";
                         } else {
-                            return 'unknown nation'
+                            return 'unknown nation';
                         }
                     }
                 }
@@ -145,11 +146,11 @@ var warHandler = new Vue({
             }
         },
         fightMethod() {
-            this.bgTab = 2
-            this.startModalTab = 2
+            this.bgTab = 2;
+            this.startModalTab = 2;
             if (this.fight.chosenSide !== "") {
                 $("#warModal").modal("hide");
-                this.fight.blockedSquares.push(...game.randomGen(0, 63, 4))
+                this.fight.blockedSquares.push(...game.randomGen(0, 63, 4));
                 this.fight.blockedSquares.forEach(element => {
                     if (element > 31) {
                         this.fight.yourTroopSquares--;
@@ -162,7 +163,7 @@ var warHandler = new Vue({
                 this.fight.yourTroops[1].maxStock = Math.ceil((this.fight.yourTroopSquares / 8) * 5);
                 this.fight.yourTroops[2].maxStock = Math.ceil((this.fight.yourTroopSquares / 8) * 3);
                 setTimeout(() => {
-                    this.fight.random = game.randomGen(1, 10000)
+                    this.fight.random = game.randomGen(1, 10000);
                 }, 50);
                 this.fight.theirTroopSquares = Math.ceil(this.fight.theirTroopSquares * (this[this.armiesInvolved.find(x => x.name !== this.fight.chosenSide).name + "Percent"] / 100));
                 this.fight.theirTroops[0].maxStock = Math.ceil((this.fight.theirTroopSquares / 8) * 5);
@@ -170,13 +171,13 @@ var warHandler = new Vue({
                 this.fight.theirTroops.forEach(element => {
                     element.stockNumber = element.maxStock;
                     this.addEnemy(game.randomGen(0, 31, element.maxStock), element.name);
-                })
+                });
 
             }
         },
         diplomacyMethod() {
-            this.bgTab = 3
-            this.startModalTab = 2
+            this.bgTab = 3;
+            this.startModalTab = 2;
             if (this.diplomacy.chosenSide !== "") {
                 $("#warModal").modal("hide");
 
@@ -191,7 +192,7 @@ var warHandler = new Vue({
         },
         updateUsedLocation(number) {
             var l = this.fight.deployedTroopLocations;
-            var i = l.findIndex(x => x.type === this.fight.draggingName && x.stock === this.fight.draggingStock)
+            var i = l.findIndex(x => x.type === this.fight.draggingName && x.stock === this.fight.draggingStock);
             if (i > -1) {
                 l[i].position = number;
             } else {
@@ -239,7 +240,7 @@ var warHandler = new Vue({
                                 }
                             }
                         }
-                        this.fight.deployedTroopLocations.push({ position: element, type: type, stock: troop.stockNumber, side: this.armiesInvolved.find(x => x.name !== this.fight.chosenSide).name })
+                        this.fight.deployedTroopLocations.push({ position: element, type: type, stock: troop.stockNumber, side: this.armiesInvolved.find(x => x.name !== this.fight.chosenSide).name });
                         $(".item-" + element).append("<div class=\"fight-troop " + type + "-troop-" + troop.stockNumber + " " + this.armiesInvolved.find(x => x.name !== this.fight.chosenSide).name + "-bg fight-enemy\"><h5>" + type + "</h5></div>");
                         troop.stockNumber--;
                         i++;

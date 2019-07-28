@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 var avatar = new Vue({
     el: "#game-start-modal",
     data: {
@@ -59,7 +60,7 @@ var avatar = new Vue({
                     break;
                 case 2:
                     //Equal
-                    var i = 1
+                    var i = 1;
                     this.allNations.forEach(nation => {
                         if (i === 1) {
                             game.$data[nation] = Math.round((percentLeft / 3) + 1);
@@ -71,7 +72,7 @@ var avatar = new Vue({
                             }
                         }
 
-                        i++
+                        i++;
                     });
                     if (game.firePercent + game.airPercent + game.waterPercent + game.earthPercent !== 100) {
                         var needed = 100 - (game.firePercent + game.airPercent + game.waterPercent + game.earthPercent);
@@ -82,7 +83,7 @@ var avatar = new Vue({
             this.allNations = ["firePercent", "waterPercent", "airPercent", "earthPercent"];
             game.timeTilWar = game.randomGen(4,7);
             warHandler.location = this.translation(this.allNations[game.randomGen(0,3)], "");
-            this.backstorySetup()
+            this.backstorySetup();
         },
         backstorySetup() {
             player.currentPosition = player.nation;
@@ -99,12 +100,12 @@ var avatar = new Vue({
                     avalibleBackstories.push(backstory);
                 }
             });
-            var highestNum = 0
+            var highestNum = 0;
             avalibleBackstories.forEach(backstory => {
                 if(backstory.number >= highestNum){
-                    highestNum = backstory.number
+                    highestNum = backstory.number;
                 }
-            })
+            });
             while (true) {
                 var backstoryNum = game.randomGen(0, highestNum);
                 var avalible = false;
@@ -138,7 +139,7 @@ var avatar = new Vue({
                             returnString = "earth";
                             suffix = "kingdom";
                         }else{
-                           return 'unknown nation'
+                           return 'unknown nation';
                         }
                     }
                 }

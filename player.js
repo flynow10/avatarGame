@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 var player = new Vue({
     el: "#player",
     data: {
@@ -41,7 +42,7 @@ var player = new Vue({
                             } else {
                                 if(skill.percent !== 100){
                                     skill.percent = 100;
-                                    alertBox("You are now a master in the element of" + player.translation(player.currentPosition, "l"), "warning")
+                                    alertBox("You are now a master in the element of" + player.translation(player.currentPosition, "l"), "warning");
                                 } else {
                                     alertBox("You are already a master in element " + player.translation(player.currentPosition, "l"), "warning");
                                     game.timeTilWar += this.cost;
@@ -61,7 +62,7 @@ var player = new Vue({
                     return "Move to another nation";
                 },
                 run(){
-                    player.tab = "move"
+                    player.tab = "move";
                 },
                 run2(){
                     $("#player").modal('hide');
@@ -69,9 +70,9 @@ var player = new Vue({
 						$(':button').prop('disabled', true);
 					}, 10);
                     var interval = setInterval(() => {
-                        game.timeTilWar -= 1
+                        game.timeTilWar -= 1;
                     }, 500);
-                    player.change(this.nation)
+                    player.change(this.nation);
                     setTimeout(() => {
                         clearInterval(interval);
 						clearInterval(interval2);
@@ -122,19 +123,19 @@ var player = new Vue({
             var nation;
             switch (to) {
                 case "water":
-                    nation = {display : "initial",top: "60px",left: "385px",borderColor: "#68aff5"};
+                    nation = {display : "initial",top: "12%",left: "48%",borderColor: "#68aff5"};
                     break;
                 case "earth":
-                    nation = {display : "initial",top: "237px",left: "482px",borderColor: "#1cc226"};
+                    nation = {display : "initial",top: "47%",left: "60%",borderColor: "#1cc226"};
                     break;
                 case "air":
-                    nation = {display : "initial",top: "338px",left: "345px",borderColor: "#f5c168"};
+                    nation = {display : "initial",top: "68%",left: "43%",borderColor: "#f5c168"};
                     break;
                 case "fire":
-                    nation = {display : "initial",top: "233px",left: "193px",borderColor: "#e70004"};
+                    nation = {display : "initial",top: "46%",left: "24%",borderColor: "#e70004"};
                     break;
             }
-            $("#avatarIcon").css(nation)
+            $("#avatarIcon").css(nation);
             this.currentPosition = "ocean";
             setTimeout(() => {
                 this.currentPosition = to;
@@ -162,7 +163,7 @@ var player = new Vue({
                             returnString = "earth";
                             suffix = "kingdom";
                         }else{
-                           return 'unknown nation'
+                           return 'unknown nation';
                         }
                     }
                 }
