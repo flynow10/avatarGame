@@ -7,6 +7,7 @@ const money = new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 0
 });
 
+
 Vue.component('power', {
     props: ["firePercent", "airPercent", "waterPercent", "earthPercent"],
     methods: {
