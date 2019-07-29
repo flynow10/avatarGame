@@ -189,8 +189,11 @@ var warHandler = new Vue({
                     left = pos - 1,
                     forward = pos - 8,
                     backward = pos + 8;
-                draggingName = troop;
-                draggingStock = stock;
+                this.fight.draggingName = troop.name;
+                this.fight.draggingStock = stock;
+                for(var i = 0; i<64; i++){
+                    $(".grid-item.item-" + i).removeClass("bg-danger");
+                }
                 if (left >= 0 && left <= 63 && DTL.findIndex(x => x.position === left) <= -1 && left % 8 !== 7 && this.fight.blockedSquares.findIndex(x => x === left) <= -1) {
                     $(".grid-item.item-" + left).addClass("bg-danger");
                 }
@@ -207,8 +210,12 @@ var warHandler = new Vue({
         },
         gridClick(squareIndex) {
             if ($(".grid-item.item-" + squareIndex).hasClass("bg-danger")) {
-                $(".grid-item.item-" + squareIndex).append(".fight-troop." + draggingName + "-troop-" + draggingStock + ":not(.fight-enemy)");
+                $(".grid-item.item-" + squareIndex).append($(".fight-troop." + this.fight.draggingName + "-troop-" + this.fight.draggingStock + ":not(.fight-enemy)"));
+                for(var i = 0; i<64; i++){
+                    $(".grid-item.item-" + i).removeClass("bg-danger");
+                }
             }
+            this.updateUsedLocation(squareIndex);
         },
         isLocationValid(n) {
             if (this.fight.blockedSquares.find(x => x === n) >= 0) {

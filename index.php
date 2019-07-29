@@ -69,7 +69,7 @@ function displayPage(){
                     <div class="war-grid-container d-inline-flex align-content-stretch flex-wrap">
                         <div v-for="(item, index) in Array.from(Array(64).keys())"
                             :class="(fight.blockedSquares.find(x => x === index) >= 0) ? 'bg-dark grid-item item-' + index  : 'grid-item item-' + index"
-                            :id="index" @dragover="dragover" @dragenter="dragenter" @drop="drop(index, $event)"></div>
+                            :id="index" @dragover="dragover" @dragenter="dragenter" @drop="drop(index, $event)" @click="gridClick(index)"></div>
                     </div>
                 </div>
 
