@@ -193,8 +193,6 @@ var warHandler = new Vue({
                     backward = pos + 8;
                     this.fight.draggingName = troop.name;
                     this.fight.draggingStock = stock;
-                    console.log(pos);
-                    console.log("**************")
                     for(var i = 0; i<64; i++){
                         $(".grid-item.item-" + i).removeClass("bg-danger");
                     }
@@ -220,7 +218,13 @@ var warHandler = new Vue({
                     $(".grid-item.item-" + i).removeClass("bg-danger");
                 }
                 this.updateUsedLocation(squareIndex);
+            }else if($(".grid-item.item-" + squareIndex+">dive").hasClass("fight-enemy"))
+            {
+                this.battle();
             }
+        },
+        battle() {
+
         },
         isLocationValid(n) {
             if (this.fight.blockedSquares.find(x => x === n) >= 0) {
