@@ -182,38 +182,32 @@ var warHandler = new Vue({
             }
         },
         selectTroop(troop, stock) {
-            if(this.fight.confirmed === true)
-            {
-                switch (troop.name) {
-                    case "Bender":
-                        var DTL = this.fight.deployedTroopLocations,
-                        pos = DTL.find(x => x.type === troop.name && x.stock === stock && x.side === this.fight.chosenSide).position,
-                        right = pos+1,
-                        left = pos-1,
-                        forward = pos-8,
-                        backward = pos+8;
-                        if(left>=0&& left<=63 && DTL.findIndex(x => x.position === left) <= -1 && left%8 !== 7 && this.fight.blockedSquares.findIndex(x => x === left) <= -1)
-                        {
-                            console.log("Left Clear");
-                        }
-                        if(right >=0 && right <= 63 && DTL.findIndex(x => x.position === right) <= -1 && right % 8 !== 0 && this.fight.blockedSquares.findIndex(x => x === right) <= -1)
-                        {
-                            console.log("Right Clear");
-                        }
-                        if(forward>=0&& forward<=63 && DTL.findIndex(x => x.position === forward) <= -1 && this.fight.blockedSquares.findIndex(x => x === forward) <= -1)
-                        {
-                            console.log("Forward Clear");
-                        }
-                        if(backward>=0&& backward<=63 && DTL.findIndex(x => x.position === backward) <= -1 && this.fight.blockedSquares.findIndex(x => x === backward) <= -1)
-                        {
-                            console.log("Backward Clear");
-                        }
-                        console.log("*******************\n");
-                        break;
-                
-                    default:
-                        break;
+            if (this.fight.confirmed === true) {
+                var DTL = this.fight.deployedTroopLocations,
+                    pos = DTL.find(x => x.type === troop.name && x.stock === stock && x.side === this.fight.chosenSide).position,
+                    right = pos + 1,
+                    left = pos - 1,
+                    forward = pos - 8,
+                    backward = pos + 8;
+                draggingName = troop;
+                draggingStock = stock;
+                if (left >= 0 && left <= 63 && DTL.findIndex(x => x.position === left) <= -1 && left % 8 !== 7 && this.fight.blockedSquares.findIndex(x => x === left) <= -1) {
+                    $(".grid-item.item-" + left).addClass("bg-danger");
                 }
+                if (right >= 0 && right <= 63 && DTL.findIndex(x => x.position === right) <= -1 && right % 8 !== 0 && this.fight.blockedSquares.findIndex(x => x === right) <= -1) {
+                    $(".grid-item.item-" + right).addClass("bg-danger");
+                }
+                if (forward >= 0 && forward <= 63 && DTL.findIndex(x => x.position === forward) <= -1 && this.fight.blockedSquares.findIndex(x => x === forward) <= -1) {
+                    $(".grid-item.item-" + forward).addClass("bg-danger");
+                }
+                if (backward >= 0 && backward <= 63 && DTL.findIndex(x => x.position === backward) <= -1 && this.fight.blockedSquares.findIndex(x => x === backward) <= -1) {
+                    $(".grid-item.item-" + backward).addClass("bg-danger");
+                }
+            }
+        },
+        gridClick(squareIndex) {
+            if ($(".grid-item.item-" + squareIndex).hasClass("bg-danger")) {
+                $(".grid-item.item-" + squareIndex).append(".fight-troop." + draggingName + "-troop-" + draggingStock + ":not(.fight-enemy)");
             }
         },
         isLocationValid(n) {
