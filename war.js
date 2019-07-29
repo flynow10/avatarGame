@@ -184,38 +184,43 @@ var warHandler = new Vue({
         selectTroop(troop, stock) {
             if (this.fight.confirmed === true) {
                 var DTL = this.fight.deployedTroopLocations,
-                    pos = DTL.find(x => x.type === troop.name && x.stock === stock && x.side === this.fight.chosenSide).position,
-                    right = pos + 1,
+                pos = DTL.find(x => x.type === troop.name && x.stock === stock && x.side === this.fight.chosenSide).position;
+                if(!$(".grid-item.item-"+pos+">div").hasClass("fight-enemy") && $(".grid-item.item-"+pos+">div").hasClass(troop.name +"-troop-"+stock))
+                {
+                    var right = pos + 1,
                     left = pos - 1,
                     forward = pos - 8,
                     backward = pos + 8;
-                this.fight.draggingName = troop.name;
-                this.fight.draggingStock = stock;
-                for(var i = 0; i<64; i++){
-                    $(".grid-item.item-" + i).removeClass("bg-danger");
-                }
-                if (left >= 0 && left <= 63 && DTL.findIndex(x => x.position === left) <= -1 && left % 8 !== 7 && this.fight.blockedSquares.findIndex(x => x === left) <= -1) {
-                    $(".grid-item.item-" + left).addClass("bg-danger");
-                }
-                if (right >= 0 && right <= 63 && DTL.findIndex(x => x.position === right) <= -1 && right % 8 !== 0 && this.fight.blockedSquares.findIndex(x => x === right) <= -1) {
-                    $(".grid-item.item-" + right).addClass("bg-danger");
-                }
-                if (forward >= 0 && forward <= 63 && DTL.findIndex(x => x.position === forward) <= -1 && this.fight.blockedSquares.findIndex(x => x === forward) <= -1) {
-                    $(".grid-item.item-" + forward).addClass("bg-danger");
-                }
-                if (backward >= 0 && backward <= 63 && DTL.findIndex(x => x.position === backward) <= -1 && this.fight.blockedSquares.findIndex(x => x === backward) <= -1) {
-                    $(".grid-item.item-" + backward).addClass("bg-danger");
+                    this.fight.draggingName = troop.name;
+                    this.fight.draggingStock = stock;
+                    console.log(pos);
+                    console.log("**************")
+                    for(var i = 0; i<64; i++){
+                        $(".grid-item.item-" + i).removeClass("bg-danger");
+                    }
+                    if (left >= 0 && left <= 63 && DTL.findIndex(x => x.position === left) <= -1 && left % 8 !== 7 && this.fight.blockedSquares.findIndex(x => x === left) <= -1) {
+                        $(".grid-item.item-" + left).addClass("bg-danger");
+                    }
+                    if (right >= 0 && right <= 63 && DTL.findIndex(x => x.position === right) <= -1 && right % 8 !== 0 && this.fight.blockedSquares.findIndex(x => x === right) <= -1) {
+                        $(".grid-item.item-" + right).addClass("bg-danger");
+                    }
+                    if (forward >= 0 && forward <= 63 && DTL.findIndex(x => x.position === forward) <= -1 && this.fight.blockedSquares.findIndex(x => x === forward) <= -1) {
+                        $(".grid-item.item-" + forward).addClass("bg-danger");
+                    }
+                    if (backward >= 0 && backward <= 63 && DTL.findIndex(x => x.position === backward) <= -1 && this.fight.blockedSquares.findIndex(x => x === backward) <= -1) {
+                        $(".grid-item.item-" + backward).addClass("bg-danger");
+                    }
                 }
             }
         },
         gridClick(squareIndex) {
-            if ($(".grid-item.item-" + squareIndex).hasClass("bg-danger")) {
+            if ($(".grid-item.item-" + squareIndex).hasClass("bg-danger")&& $(".grid-item.item-" + squareIndex).is(":empty")) {
                 $(".grid-item.item-" + squareIndex).append($(".fight-troop." + this.fight.draggingName + "-troop-" + this.fight.draggingStock + ":not(.fight-enemy)"));
                 for(var i = 0; i<64; i++){
                     $(".grid-item.item-" + i).removeClass("bg-danger");
                 }
+                this.updateUsedLocation(squareIndex);
             }
-            this.updateUsedLocation(squareIndex);
         },
         isLocationValid(n) {
             if (this.fight.blockedSquares.find(x => x === n) >= 0) {
