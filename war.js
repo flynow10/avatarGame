@@ -218,13 +218,25 @@ var warHandler = new Vue({
                     $(".grid-item.item-" + i).removeClass("bg-danger");
                 }
                 this.updateUsedLocation(squareIndex);
-            }else if($(".grid-item.item-" + squareIndex+">dive").hasClass("fight-enemy"))
+                this.fight.draggingName = "";
+                this.fight.draggingStock = "";
+            }else if($(".grid-item.item-" + squareIndex+">div").hasClass("fight-enemy"))
             {
-                this.battle();
+                if(($(".grid-item.item-" + (squareIndex-1)+">div").hasClass(this.fight.draggingName+"-troop-"+this.fight.draggingStock)&& (squareIndex - 1) % 8 !== 7)|| ($(".grid-item.item-" + (squareIndex+1)+">div").hasClass(this.fight.draggingName+"-troop-"+this.fight.draggingStock)&&(squareIndex + 1) % 8 !== 0)||$(".grid-item.item-" + (squareIndex+8)+">div").hasClass(this.fight.draggingName+"-troop-"+this.fight.draggingStock)||$(".grid-item.item-" + (squareIndex - 8)+">div").hasClass(this.fight.draggingName+"-troop-"+this.fight.draggingStock))
+                {
+                    this.battle(squareIndex, this.fight.deployedTroopLocations.find(x => x.type === this.fight.draggingName && x.stock === this.fight.draggingStock && x.side === this.fight.chosenSide).position);
+                }
+            }else if($(".grid-item.item-" + squareIndex).is(":empty")){
+                    $(".grid-item").removeClass("bg-danger");
+                this.fight.draggingName = "";
+                this.fight.draggingStock = "";
             }
         },
-        battle() {
-
+        battle(defendingSquare, attackingSquare) {
+            console.log({battle: true});
+            for(var x = 0; x<64; x++){
+                $(".grid-item.item-" + x).removeClass("bg-danger");
+            }
         },
         isLocationValid(n) {
             if (this.fight.blockedSquares.find(x => x === n) >= 0) {
