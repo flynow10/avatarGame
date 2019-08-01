@@ -65,33 +65,41 @@ function displayPage(){
                 <img src="assets/Battle.png" v-if="bgTab === 1" alt="Battle Field" height="500px">
                 <img src="assets/meeting-room.png" v-if="bgTab === 3" alt="meeting-room" height="500px">
                 <!--Replace with fight background -->
-                <div v-if="bgTab === 2">
-                    <div class="war-grid-container d-inline-flex align-content-stretch flex-wrap">
-                        <div v-for="(item, index) in Array.from(Array(64).keys())"
-                            :class="(fight.blockedSquares.find(x => x === index) >= 0) ? 'bg-dark grid-item item-' + index  : 'grid-item item-' + index"
-                            :id="index" @dragover="dragover" @dragenter="dragenter" @drop="drop(index, $event)" @click="gridClick(index)"></div>
+
+                <div v-if="bgTab === 2" class="war-grid-container d-inline-flex align-content-stretch flex-wrap">
+                    <div v-for="(item, index) in Array.from(Array(64).keys())"
+                        :class="(fight.blockedSquares.find(x => x === index) >= 0) ? 'bg-dark grid-item item-' + index  : 'grid-item item-' + index"
+                        :id="index" @dragover="dragover" @dragenter="dragenter" @drop="drop(index, $event)"
+                        @click="gridClick(index)"></div>
+                    <div v-if="bgTab === 2" class="fight-yourTroops d-inline-flex align-content-stretch flex-wrap">
+                        <div v-for="(troop,index) in fight.yourTroops" v-if="fight.confirmed === false">
+                            <div :class="'troop-stack troop-stack-' + troop.name">
+                                <div v-for="(dragSquare, troopStock) in Array.from(Array(troop.maxStock).keys())"
+                                    :class="'fight-troop ' + troop.name + '-troop-' + troopStock +' '+ fight.chosenSide + '-bg'"
+                                    draggable="true" @dragstart="startDrag($event, troop.name, troopStock);"
+                                    @click="selectTroop(troop,troopStock)">
+                                    <h5>{{troop.name}}</h5>
+                                </div>
+                                <h4 :key="fight.random" v-if="troop.amountInStock() !== 0">{{troop.amountInStock()}}
+                                </h4>
+                            </div>
+                        </div>
+                        <div>
+                            <button class="btn btn-success btn-large confirm-troops d-inline"
+                                v-if="fight.deployedTroopLocations.length !== fight.theirTroops[0].maxStock + fight.theirTroops[1].maxStock"
+                                @click="confirmTroops">Confirm
+                                Troop Placement</button>
+                        </div>
                     </div>
+                </div>
+                <div class="battle-minigame">
+                    
                 </div>
 
                 <div class="diplomacy-overlay" v-if="bgTab === 3"></div>
                 <!--<div class="fight-overlay" v-if="bgTab === 2"></div>-->
 
-                <div v-if="bgTab === 2" class="fight-yourTroops d-inline-flex align-content-stretch flex-wrap">
-                    <div v-for="(troop,index) in fight.yourTroops" v-if="fight.confirmed === false">
-                        <div :class="'troop-stack troop-stack-' + troop.name">
-                            <div v-for="(dragSquare, troopStock) in Array.from(Array(troop.maxStock).keys())"
-                                :class="'fight-troop ' + troop.name + '-troop-' + troopStock +' '+ fight.chosenSide + '-bg'"
-                                draggable="true" @dragstart="startDrag($event, troop.name, troopStock);" @click="selectTroop(troop,troopStock)">
-                                <h5>{{troop.name}}</h5>
-                            </div>
-                            <h4 :key="fight.random"  v-if="troop.amountInStock() !== 0">{{troop.amountInStock()}}</h4>
-                        </div>
-                    </div>
-                    <div>
-                        <button class="btn btn-success btn-large confirm-troops d-inline" v-if="fight.deployedTroopLocations.length !== fight.theirTroops[0].maxStock + fight.theirTroops[1].maxStock" @click="confirmTroops">Confirm
-                            Troop Placement</button>
-                    </div>
-                </div>
+
             </div>
         </div>
         <div class="col-2"></div>

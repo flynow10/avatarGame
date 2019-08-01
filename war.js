@@ -193,9 +193,7 @@ var warHandler = new Vue({
                     backward = pos + 8;
                     this.fight.draggingName = troop.name;
                     this.fight.draggingStock = stock;
-                    for(var i = 0; i<64; i++){
-                        $(".grid-item.item-" + i).removeClass("bg-danger");
-                    }
+                    $(".grid-item").removeClass("bg-danger");
                     if (left >= 0 && left <= 63 && DTL.findIndex(x => x.position === left) <= -1 && left % 8 !== 7 && this.fight.blockedSquares.findIndex(x => x === left) <= -1) {
                         $(".grid-item.item-" + left).addClass("bg-danger");
                     }
@@ -214,9 +212,7 @@ var warHandler = new Vue({
         gridClick(squareIndex) {
             if ($(".grid-item.item-" + squareIndex).hasClass("bg-danger")&& $(".grid-item.item-" + squareIndex).is(":empty")) {
                 $(".grid-item.item-" + squareIndex).append($(".fight-troop." + this.fight.draggingName + "-troop-" + this.fight.draggingStock + ":not(.fight-enemy)"));
-                for(var i = 0; i<64; i++){
-                    $(".grid-item.item-" + i).removeClass("bg-danger");
-                }
+                $(".grid-item").removeClass("bg-danger");
                 this.updateUsedLocation(squareIndex);
                 this.fight.draggingName = "";
                 this.fight.draggingStock = "";
@@ -227,16 +223,50 @@ var warHandler = new Vue({
                     this.battle(squareIndex, this.fight.deployedTroopLocations.find(x => x.type === this.fight.draggingName && x.stock === this.fight.draggingStock && x.side === this.fight.chosenSide).position);
                 }
             }else if($(".grid-item.item-" + squareIndex).is(":empty")){
-                    $(".grid-item").removeClass("bg-danger");
+                $(".grid-item").removeClass("bg-danger");
                 this.fight.draggingName = "";
                 this.fight.draggingStock = "";
             }
         },
-        battle(defendingSquare, attackingSquare) {
-            console.log({battle: true});
-            for(var x = 0; x<64; x++){
-                $(".grid-item.item-" + x).removeClass("bg-danger");
+        battle(enemySquare, yourSquare) {
+            $(".grid-item").removeClass("bg-danger");
+            var DTL = this.fight.deployedTroopLocations,
+            attackingTroop = DTL.find(x => x.position === yourSquare),
+            defendingTroop = DTL.find(x => x.position === enemySquare);
+            console.log({attacking: attackingTroop, defending: defendingTroop, width: this.getGreenPercent(defendingTroop.type, attackingTroop.type)});
+            
+        },
+        getGreenPercent(enemyType, yourType){
+            var result = 0;
+            switch (enemyType) {
+                case "Bender":
+                    switch (yourType) {
+                        case "Bender":
+                            result = 30;
+                            break;
+                        case "Tank":
+                            result = 50;
+                            break;
+                        case "Avatar":
+                            result = 90;
+                            break;
+                    }                    
+                    break;
+                case "Tank":
+                    switch (yourType) {
+                        case "Bender":
+                            result = 20;
+                            break;
+                        case "Tank":
+                            result = 30;
+                            break;
+                        case "Avatar":
+                            result = 70;
+                            break;
+                    }
+                    break;
             }
+            return result / 2;
         },
         isLocationValid(n) {
             if (this.fight.blockedSquares.find(x => x === n) >= 0) {
