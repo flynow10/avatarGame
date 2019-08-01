@@ -9,7 +9,27 @@
     background-image: url("assets/bg.png") !important;
     height: 100%;
 }
-
+.battle-minigame{
+    height: 40px;
+    background-color: red;
+    width: 500px;
+    position: relative;
+    display: inline-flex;
+}
+.battle-minigame-green{
+    height: 100%;
+    background-color: green;
+    margin: auto auto;
+}
+.slider{
+    position: absolute;
+    width: 10px;
+    background-color: white;
+    border-radius: 7px;
+    left: 0px;
+    top: 0px;
+    height: 100%;
+}
 .power {
     width: auto;
 }

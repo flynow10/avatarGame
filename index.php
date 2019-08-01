@@ -92,8 +92,9 @@ function displayPage(){
                         </div>
                     </div>
                 </div>
-                <div class="battle-minigame">
-                    
+                <div class="battle-minigame" v-if="fight.battle === true">
+                    <div class="battle-minigame-green"></div>
+                    <div class="slider"></div>
                 </div>
 
                 <div class="diplomacy-overlay" v-if="bgTab === 3"></div>

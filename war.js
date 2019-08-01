@@ -4,7 +4,6 @@ var warHandler = new Vue({
     data: {
         war: false,
         location: "",
-        document: document,
         armiesInvolved: [],
         battleScale: 0,
         chosenBattleStory: 0,
@@ -63,6 +62,8 @@ var warHandler = new Vue({
             yourTroopSquares: 32,
             theirTroopSquares: 32,
             confirmed: false,
+            battle: false,
+            sliderPos: 0,
         }
     },
     methods: {
@@ -182,7 +183,7 @@ var warHandler = new Vue({
             }
         },
         selectTroop(troop, stock) {
-            if (this.fight.confirmed === true) {
+            if (this.fight.confirmed === true && this.fight.battle === false) {
                 var DTL = this.fight.deployedTroopLocations,
                 pos = DTL.find(x => x.type === troop.name && x.stock === stock && x.side === this.fight.chosenSide).position;
                 if(!$(".grid-item.item-"+pos+">div").hasClass("fight-enemy") && $(".grid-item.item-"+pos+">div").hasClass(troop.name +"-troop-"+stock))
@@ -216,7 +217,7 @@ var warHandler = new Vue({
                 this.updateUsedLocation(squareIndex);
                 this.fight.draggingName = "";
                 this.fight.draggingStock = "";
-            }else if($(".grid-item.item-" + squareIndex+">div").hasClass("fight-enemy"))
+            }else if($(".grid-item.item-" + squareIndex+">div").hasClass("fight-enemy") && this.fight.battle === false)
             {
                 if(($(".grid-item.item-" + (squareIndex-1)+">div").hasClass(this.fight.draggingName+"-troop-"+this.fight.draggingStock)&& (squareIndex - 1) % 8 !== 7)|| ($(".grid-item.item-" + (squareIndex+1)+">div").hasClass(this.fight.draggingName+"-troop-"+this.fight.draggingStock)&&(squareIndex + 1) % 8 !== 0)||$(".grid-item.item-" + (squareIndex+8)+">div").hasClass(this.fight.draggingName+"-troop-"+this.fight.draggingStock)||$(".grid-item.item-" + (squareIndex - 8)+">div").hasClass(this.fight.draggingName+"-troop-"+this.fight.draggingStock))
                 {
@@ -228,13 +229,26 @@ var warHandler = new Vue({
                 this.fight.draggingStock = "";
             }
         },
-        battle(enemySquare, yourSquare) {
-            $(".grid-item").removeClass("bg-danger");
-            var DTL = this.fight.deployedTroopLocations,
-            attackingTroop = DTL.find(x => x.position === yourSquare),
-            defendingTroop = DTL.find(x => x.position === enemySquare);
-            console.log({attacking: attackingTroop, defending: defendingTroop, width: this.getGreenPercent(defendingTroop.type, attackingTroop.type)});
-            
+        battle(enemySquare, yourSquare, secondTime = false) {
+            if (secondTime === false) {
+                this.fight.battle = true;
+                $(".grid-item").removeClass("bg-danger");
+                var DTL = this.fight.deployedTroopLocations,
+                attackingTroop = DTL.find(x => x.position === yourSquare),
+                defendingTroop = DTL.find(x => x.position === enemySquare);
+                //time for vue to update
+                setTimeout(() => {
+                    $(".battle-minigame-green").css({width: this.getGreenPercent(defendingTroop.type, attackingTroop.type)*5+"px"});
+                    this.battle(enemySquare, yourSquare, true);
+                }, 50);
+            } else {
+                console.log($(".slider").css("left").substring(0,1));
+                this.fight.sliderPos++;
+                if(this.fight.sliderPos< 500){
+                    window.requestAnimationFrame(this.battle(enemySquare,yourSquare,true));
+                }
+                $(".slider").css({left: this.fight.sliderPos+"px"});                
+            }
         },
         getGreenPercent(enemyType, yourType){
             var result = 0;

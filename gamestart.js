@@ -36,7 +36,7 @@ var avatar = new Vue({
                 currentNation = this.allNations[rand];
             this.allNations.splice(rand, 1);
             this.power = currentNation;
-            game.$data[currentNation] = game.randomGen(50, 70);
+            game.$data[currentNation] = game.randomGen(40, 70);
             var percentLeft = 100 - game.$data[currentNation];
             this.weakOrEqual = game.randomGen(1, 2);
             switch (this.weakOrEqual) {

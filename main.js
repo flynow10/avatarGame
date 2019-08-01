@@ -71,7 +71,8 @@ var game = new Vue({
             for (let i = 0; i < amount;) {
                 nextAdd = Math.floor(Math.random() * (max - min + 1)) + min;
                 var hasInArray = answerArray.findIndex(x => {
-                    return x === nextAdd;
+                    const n = x;
+                    return n === nextAdd;
                 });
                 if (answerArray.length === 0 || hasInArray === -1) {
                     answerArray.push(nextAdd);
